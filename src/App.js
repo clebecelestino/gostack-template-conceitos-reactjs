@@ -26,14 +26,12 @@ function App() {
 
   async function handleRemoveRepository(id) {
 
-    api.delete('repositories/'+id).then(response => {
-
-      api.get('repositories').then(response => { 
-        setRepositories(response.data);
-      });
-
-    });
-    
+    try {
+      await api.delete(`repositories/${id}`);
+      setRepositories(repositories.filter((r) => r.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
